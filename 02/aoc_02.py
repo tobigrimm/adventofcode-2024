@@ -2,6 +2,7 @@ import sys
 import os
 from collections import Counter
 from collections import deque
+from itertools import permutations
 
 def window(seq, n=2):
     it = iter(seq)
@@ -34,11 +35,28 @@ def check_reports(reports):
     sum = 0
     for report in reports:
         res = is_report_safe(report)
-        print(res, report)
         if res:
             sum += 1
 
     return sum
+
+
+def test_tolerate_reports(reports):
+    sum = 0
+    # go through all the reports, continue if they are safe, otherwise test permutations of dropping one level
+    for report in reports:
+        if is_report_safe(report):
+            sum += 1
+        else:
+            for drop_index in range(len(report)):
+                drop_report = list(report)
+                del drop_report[drop_index]
+                res = is_report_safe(drop_report)
+                if res:
+                    sum += 1
+                    break
+    return sum
+
 
 if __name__ == "__main__":
     print("aoc 2")
@@ -47,7 +65,7 @@ if __name__ == "__main__":
     with open(filename,"r") as inputfile:
         for line in inputfile:
             levels = [int(x) for x in line.strip().split(" ")]
-            print(levels)
             reports.append(levels)
 
-    print(check_reports(reports))
+    print(f"Part1: {check_reports(reports)}")
+    print(f"Part2: {test_tolerate_reports(reports)}")
