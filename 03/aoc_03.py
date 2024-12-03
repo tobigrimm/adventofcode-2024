@@ -24,7 +24,7 @@ if __name__ == "__main__":
         for line in inputfile:
             pattern = r"(mul)\(([0-9]{1,3}),([0-9]{1,3})\)"
             matches = re.findall(pattern,line.strip())
-            multiply = lambda x: int(x[1])*int(x[2])
+            multiply = lambda x: int(x[1])*int(x[2]) if x[0] == "mul" else 0
             res = map(multiply, matches)
             res = sum(res)
             all += res
