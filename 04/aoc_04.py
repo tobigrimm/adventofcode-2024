@@ -24,52 +24,6 @@ def diagonal_elem(ll, a, b):
     except IndexError:
         return None
 
-
-
-def np_count_words(matrix, wordlist):
-    #first version based on numpy m)
-    res = 0
-    for word in wordlist:
-        left_right = ''.join(matrix.flatten().tolist()[0])
-    
-        #get diagonals
-
-        diagonals = []
-        for j in range(-matrix.shape[0]+1, matrix.shape[0]):
-            diagonals.append([diagonal_elem(matrix, i, i+j) for i in range(matrix.shape[1])])
-        for j in range(0, 2*matrix.shape[0]):
-            diagonals.append([diagonal_elem(matrix, i, -i+j) for i in range(matrix.shape[1])])
-                
-
-        # TODO replace strings after matching!
-
-
-        # transpose to get up_down
-        matrix.transpose()
-        up_down = ''.join(matrix.flatten().tolist()[0])
-
-        res += left_right.count(word)
-        l_r = left_right.replace("XMAS","")
-        right_left = l_r[::-1]
-        res += right_left.count(word)
-        res += up_down.count(word)
-        u_d = up_down.replace("XMAS", "")
-        down_up = u_d[::-1]
-        res += down_up.count(word)
-        
-        #diagonals = []
-        for diag in diagonals:
-            diagword = ''.join([letter for letter in diag if letter is not None])
-            if len(diagword) > 0:
-                res += diagword.count(word)
-                backwards = diagword[::-1]
-                res += backwards.count(word)
-                print(diagword, diagword.count(word), backwards.count(word))
-
-
-    return res
-
-
 def count_words(matrix, wordlist):
     # range of direction for x and y shifts
     dirs = (-1, 0, 1)
